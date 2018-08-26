@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ProductsCreate extends StatelessWidget {
+class ProductsList extends StatelessWidget {
   @override
     Widget build(BuildContext context) {
       // TODO: implement build

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import './pages/home.dart';
 import './pages/product.dart';
 import './pages/manage_product.dart';
+import './pages/auth.dart';
 
 void main() => runApp(MyApp());
 
@@ -16,9 +17,9 @@ class MyApp extends StatefulWidget {
 
 // create widget by class, create obj
 class _MyAppState extends State<MyApp> {
-  final List<Map<String, String>> _products = [];
+  final List<Map<String, dynamic>> _products = [];
 
-  void _addProduct(Map<String, String> product) {
+  void _addProduct(Map<String, dynamic> product) {
     setState(() {
       _products.add(product);
     });
@@ -41,9 +42,10 @@ class _MyAppState extends State<MyApp> {
           brightness: Brightness.light),
       // home: AuthPage());
       routes: {
-        '/': (BuildContext context) =>
-            HomePage(_products, _addProduct, _deleteProducts),
-        '/manage': (BuildContext context) => ManageProducts()
+        '/': (BuildContext context) => AuthPage(),
+        '/home': (BuildContext context) => HomePage(_products),
+        '/manage': (BuildContext context) =>
+            ManageProducts(_addProduct, _deleteProducts)
       },
       onGenerateRoute: (RouteSettings settings) {
         final List<String> pathElements = settings.name.split('/');
@@ -52,13 +54,15 @@ class _MyAppState extends State<MyApp> {
           final int index = int.parse(pathElements[2]);
           return MaterialPageRoute<bool>(
               builder: (BuildContext context) => ProductPage(
-                  _products[index]['title'], _products[index]['imageURL']));
+                  _products[index]['title'],
+                  _products[index]['describe'],
+                  _products[index]['price'],
+                  _products[index]['imgURL']));
         }
       },
       onUnknownRoute: (RouteSettings settings) {
         return MaterialPageRoute(
-            builder: (BuildContext context) =>
-                HomePage(_products, _addProduct, _deleteProducts));
+            builder: (BuildContext context) => HomePage(_products));
       },
     );
   }

@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import '../products_manager.dart';
-import './manage_product.dart';
+import '../widgets/products/products.dart';
 
 class HomePage extends StatelessWidget {
-  final List<Map <String,String>> products;
-  final Function addProducts;
-  final Function deleteProduct;
+  final List<Map<String, dynamic>> products;
 
-  HomePage(this.products, this.addProducts, this.deleteProduct);
+  HomePage(this.products);
 
   @override
   Widget build(BuildContext context) {
@@ -21,20 +18,25 @@ class HomePage extends StatelessWidget {
                 title: Text('Menu'),
               ),
               ListTile(
+                leading: Icon(Icons.edit),
                 title: Text('Manage Product'),
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => ManageProducts()));
+                  Navigator.pushReplacementNamed(context, '/manage');
                 },
               )
             ],
           ),
         ),
         appBar: AppBar(
-            textTheme: Theme.of(context).primaryTextTheme,
-            title: Text('Easy List')),
-        body: ProductsManager(products,addProducts,deleteProduct));
+          textTheme: Theme.of(context).primaryTextTheme,
+          title: Text('Easy List'),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.favorite),
+              onPressed: () {},
+            )
+          ],
+        ),
+        body: Products(products));
   }
 }
